@@ -6,7 +6,7 @@ include:
 # @FIXME for global installation and this to make sense
 # see https://github.com/pyllyukko/user.js/#system-wide-installation-all-platforms
 
-{%- for user in firefox.users | selectattr('userjs', 'defined') | selectattr('userjs') %}
+{%- for user in firefox.users | selectattr('firefox.userjs', 'defined') | selectattr('firefox.userjs') %}
 # jinja will be evaluated before the states are run, therefore jinja cannot find the profile dir
 # while firefox is not installed (on the first run). implement execution module to change that @TODO
 Firefox default profile user.js is synced with source for user {{ user.name }}:

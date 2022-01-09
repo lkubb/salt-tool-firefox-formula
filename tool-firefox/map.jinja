@@ -2,37 +2,60 @@
 {%- set firefox = salt['pillar.get']('tool:firefox', {'users': {}}, merge=True) -%}
 {%- set users = {} -%}
 
-{%- set version = firefox.get('version', 'esr') %}
-{%- set package_name = {
-  'beta': 'firefox-beta',
-  'dev': 'firefox-developer-edition',
-  'esr': 'firefox-esr',
-  'nightly': 'firefox-nightly',
-  'stable': 'firefox'
-  }.get(version) -%}
+{#- originally, wanted to make version selection possible, but it was too much work
+    for my use case (handling installation paths, default profile suffixes, package
+    names and tar installation on linux for beta/nightly/dev).
+    default to system default, which is mostly stable, but Debian
+    uses ESR, ironically only provides FF stable in unstable repo -#}
+{%- set version = 'esr' if 'Debian' == grains['os'] else 'stable' %}
 
-{#- need this string for path handling (probably, need to test) -#}
-{%- set esr = '-esr' if 'esr' == version else '' %}
+{%- set vars = salt['match.filter_by']({
+  'beta': {
+    '_default_profile': '.default-beta',
+    '_name_suffix': ' Beta'},
+  'dev': {
+    '_default_profile': '.dev-edition-default',
+    '_mac_suffix': ' Developer Edition',
+    '_name_suffix': ' Developer Edition'},
+  'esr': {
+    '_default_profile': '.default-esr',
+    '_apt_suffix': '-esr',
+    '_name_suffix': ' ESR'},
+  'nightly': {
+    '_default_profile': '.default-nightly',
+    '_mac_suffix': ' Nightly',
+    '_name_suffix': ' Nightly'},
+  'stable': {
+    '_default_profile': '.default-release',
+    '_name_suffix': ''}
+  }, minion_id=version) -%}
 
-{%- set package = salt['grains.filter_by']({
-  'MacOS': 'homebrew/cask/' ~ package_name,
-  'default': package_name
-  }, 'os_family') -%}
-
-{#- @TODO this only works for stable probably and not sure about the paths atm -#}
-{%- set default_path = salt['grains.filter_by']({
-  'MacOS': '/Applications/Firefox.app/Contents/MacOS/firefox',
-  'default': '/usr/bin/firefox' ~ esr
+{#- @TODO windows/rpm/bsd, probably C:/Program Files/Mozilla/Firefox or Program Files (x86). not sure about suffix -#}
+{%- set installation_path = salt['grains.filter_by']({
+  'MacOS': '/Applications/Firefox{}.app'.format(vars.get('mac_suffix', '')),
+  'Windows': 'C:/Program Files/Mozilla/Firefox',
+  'RedHat': '/usr/lib64/firefox',
+  'Suse': '/usr/lib64/firefox',
+  '*BSD': '/usr/local/lib/firefox',
+  'default': '/usr/lib/firefox{}'.format(vars.get('apt_suffix', ''))
   }, 'os_family') %}
 
-{%- do firefox.update({'_package': package, '_default_path': default_path, '_esr': esr, 'version': version}) -%}
-
-{%- set default_confdir = salt['grains.filter_by']({
-  'Darwin': '/Library/Application Support/Firefox',
-  'Linux': '/.mozilla',
-  'Windows': '\\AppData\\Roaming\\Mozilla\\Firefox'
+{%- set default_profile_dir = salt['grains.filter_by']({
+  'Darwin': '/Library/Application Support/Firefox/Profiles',
+  'Linux': '/.mozilla/firefox/Profiles',
+  'Windows': '/AppData/Roaming/Mozilla/Firefox'
   }, 'kernel')
 -%}
+
+{%- set bin_path = salt['grains.filter_by']({
+  'Darwin': installation_path ~ '/Contents/MacOS/firefox',
+  'Windows': installation_path ~ '/firefox.exe',
+  'default': installation_path ~ '/firefox'
+  }, 'kernel') %}
+
+{#- currently, force version to default version for OS @TODO -#}
+{%- do firefox.update({'_path': installation_path, '_bin': bin_path, 'version': version}) -%}
+{%- do firefox.update(vars) %}
 
 {%- load_yaml as extensions_default -%}
 installation_mode: {{ firefox.get('ext_default_installmode', 'normal_installed') }}
@@ -53,7 +76,7 @@ updates_disabled: {{ firefox.get('ext_default_updatedisabled', False) }}
       {%- set extension_config = extension[extension_name] -%}
       {%- if extension_config.get('local', False) -%}
         {%- do local_extensions.append(extension_name) -%}
-        {%- do extension_config.update({'install_url': 'file://' ~ extensions_local_base ~ '/' ~ extension_name ~ '.xpi'}) -%}
+        {%- do extension_config.update({'install_url': 'file://' ~ firefox.ext_local_source ~ '/' ~ extension_name ~ '.xpi'}) -%}
         {%- do extension_config.pop('local') -%}
       {%- endif -%}
     {%- else -%}
@@ -72,14 +95,6 @@ updates_disabled: {{ firefox.get('ext_default_updatedisabled', False) }}
   {%- if 'Darwin' == grains['kernel'] -%}
     {#- on MacOS, policies have to be enabled explicitly -#}
     {%- do policies.update({'EnterprisePoliciesEnabled': True}) -%}
-  {%- elif 'Linux' == grains.kernel %}
-    {%- do firefox.update({'_policypath': salt['match.filter_by']({
-      'RedHat': '/usr/lib64/firefox{}/distribution' | format(esr),
-      'Suse': '/usr/lib64/firefox{}/distribution' | format(esr),
-      '*BSD': '/usr/local/lib/firefox{}/distribution' | format(esr),
-      'default': '/usr/lib/firefox{}/distribution' | format(esr),
-      }, 'os_family')})
-    -%}
   {%- endif %}
 {%- endif -%}
 
@@ -120,11 +135,11 @@ home: {{ user_info.home }}
 shell: {{ user_info.shell.split('/')[-1] }}
   {%- endload -%}
   {%- do users[user].update(salt['defaults.merge'](user_info, users[user], in_place=False)) -%}
-  {%- set confdir = user_info.home + default_confdir %}
+  {%- set profiles_dir = user_info.home + default_profile_dir %}
   {#- need the default profile name, should be default-release in most cases. not sure which ones use default -#}
-  {%- set profilename = 'default-release' if version in ['esr', 'stable'] else 'default' -%}
-  {%- set profile = (salt['file.find'](confdir ~ '/Profiles/*.' ~ profilename, type='d', maxdepth=0) or ['']) | first %}
-  {%- do users[user]['_firefox'].update({'confdir': confdir, 'profile': profile}) -%}
+  {%- set profile = (salt['file.find'](profiles_dir ~ '/*' ~ vars._default_profile, type='d', maxdepth=0) or ['']) | first %}
+  {%- do users[user]['_firefox'].update({'confdir': profiles_dir, 'profile': profile}) -%}
 {%- endfor -%}
 
 {%- do firefox.update({'users': users.values() | list}) -%}
+{{ firefox | json }}

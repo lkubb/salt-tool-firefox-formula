@@ -36,7 +36,7 @@ Firefox policies are applied as profile:
 
 Firefox policies are synced to policies.json:
   file.serialize:
-    - name: {{ firefox._policypath }}/policies.json
+    - name: {{ firefox._path }}/distribution/policies.json
     - dataset: {{ {'policies': firefox._policies} | json }}
     - serializer: json
     - makedirs: true

@@ -119,7 +119,35 @@ Firefox does not make a good fit with dotfiles sadly. If a user has `dotconfig` 
 
 to your default profile. This works in the first run **after Firefox has been installed**.
 
+## Notes
+### Defaults of Versions
+|         | brew pkg                                         | choco pkg             | OS apt/rpm pkg | tar | .default-profile           | Firefox {}.app    | apt install suffix |
+|---------|--------------------------------------------------|-----------------------|----------------|-----|----------------------------|-------------------|--------------------|
+| stable  | homebrew/cask/firefox                            | firefox               | x              |     | .default-release           |                   |                    |
+| esr     | homebrew/cask-versions/firefox-esr               | firefoxesr            | x              |     | .default-esr               |                   | -esr               |
+| dev     | homebrew/cask-versions/firefox-developer-edition | firefox-dev (pre)     |                | x   | .developer-edition-default | Developer Edition |                    |
+| beta    | homebrew/cask-versions/firefox-beta              | firefox-beta (pre)    |                | x   | .default-beta              |                   |                    |
+| nightly | homebrew/cask-versions/firefox-nightly           | firefox-nightly (pre) |                | x   | .default-nightly           | Nightly           |                    |
+
+### Defaults of OS
+|                      | install_path of pkg    | profile dir                                             |
+|----------------------|------------------------|---------------------------------------------------------|
+| apt/pacman generally | /usr/lib/firefox       |                                                         |
+| rpm generally        | /usr/lib64/firefox     |                                                         |
+| *BSD                 | /usr/local/lib/firefox |                                                         |
+| Linux                |                        | ~/.mozilla/firefox/Profiles                             |
+| MacOS                |                        | ~/Library/Application Support/Firefox/Profiles          |
+| Windows              |                        | %APPDATA%/Mozilla/Firefox/Profiles (~/AppData/Roaming)  |
+
+### Tar Downloads
+`https://download.mozilla.org/?product=firefox-{{ version }}-latest-ssl&os=linux`. Find URL with
+```bash
+curl -ILs -o /dev/null -w %{url_effective} 'https://download.mozilla.org/?product=firefox-{{ version }}-latest-ssl&os=linux'
+```
+
 ## Todo
+- use TOFS and libmapstack to untagle the mess
+- allow per-user installation generally (for linux with tar/snap/)
 - implement firefox execution/state module with mozprofile to manage individual profiles
 - then make it possible to specify settings per profile
 - userjs implementation makes only some sense. better make it per-user
