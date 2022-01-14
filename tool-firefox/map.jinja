@@ -73,17 +73,20 @@ updates_disabled: {{ firefox.get('ext_default_updatedisabled', False) }}
     {%- set extension_config = {} -%}
     {%- if extension is mapping -%}
       {%- set extension_name = extension.keys() | list | first -%}
-      {%- set extension_config = extension[extension_name] -%}
-      {%- if extension_config.get('local', False) -%}
-        {%- do local_extensions.append(extension_name) -%}
-        {%- do extension_config.update({'install_url': 'file://' ~ firefox.ext_local_source ~ '/' ~ extension_name ~ '.xpi'}) -%}
-        {%- do extension_config.pop('local') -%}
-      {%- endif -%}
+      {#- need to deepcopy because we might pop 'local' settings, which will seem to work, but
+          will make imports not contain local extension settings -#}
+      {%- set extension_config = salt['defaults.deepcopy'](extension[extension_name]) -%}
     {%- else -%}
       {%- set extension_name = extension -%}
     {%- endif -%}
-    {%- set extension_config = salt['defaults.merge'](extensions_default, extension_config, in_place=False) -%}
     {%- import_yaml "tool-firefox/config/policies/addons/" + extension_name + ".yml" as data -%}
+    {%- if extension_config.get('local', False) -%}
+      {%- do local_extensions.append(extension_name) -%}
+      {%- do extension_config.update({'install_url': 'file://' ~ firefox.ext_local_source ~ '/' ~ extension_name ~ '.xpi'}) -%}
+      {%- do extension_config.pop('local') -%}
+    {%- endif -%}
+    {%- set extension_default = salt['defaults.merge'](extensions_default, data[data.keys() | list | first], in_place=False) -%}
+    {%- set extension_config = salt['defaults.merge'](extension_default, extension_config, in_place=False) -%}
     {%- do data[data.keys() | list | first].update(extension_config) -%}
     {%- do extensions_data.update(data) -%}
   {%- endfor -%}
@@ -142,4 +145,3 @@ shell: {{ user_info.shell.split('/')[-1] }}
 {%- endfor -%}
 
 {%- do firefox.update({'users': users.values() | list}) -%}
-{{ firefox | json }}
