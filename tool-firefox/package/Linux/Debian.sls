@@ -65,8 +65,8 @@ Firefox{{ firefox._name_suffix}} setup is completed:
       - pkg: {{ installation.pkgname }}
 
 {%- elif installation.type == 'tar' %}
-
-{%- set source = salt['cmd.run_stdout']("curl -ILs -o /dev/null -w %{url_effective} 'https://download.mozilla.org/?product=firefox-{{ version }}-latest-ssl&os=linux'" | format(version)) %}
+# @TODO does not work, dev = devedition e.g.
+{%- set source = salt['cmd.run_stdout']("curl -ILs -o /dev/null -w %{{url_effective}} 'https://download.mozilla.org/?product=firefox-{}-latest-ssl&os=linux'".format(firefox.version)) %}
 # just dump the archive into /opt. this will break automatic update since root owns those files
 # revisit this whole mess later @TODO (consider installing per user, as Tor Browser does)
 Firefox{{ firefox._name_suffix }} is installed:
