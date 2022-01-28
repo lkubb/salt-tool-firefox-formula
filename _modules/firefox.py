@@ -22,15 +22,16 @@ def __virtual__():
 
 
 def _which(user=None):
-    if e := salt["cmd.run"]("command -v firefox", runas=user):
-        return e
-    if salt.utils.platform.is_darwin():
-        if p := salt["cmd.run"]("brew --prefix firefox", runas=user):
-            return p
-        for f in ['/opt/homebrew/bin', '/usr/local/bin']:
-            if p := salt["cmd.run"]("test -s {}/code && echo {}/code".format(f, f) , runas=user):
-                return p
-    raise CommandExecutionError("Could not find firefox executable.")
+    pass
+    # if e := salt["cmd.run"]("command -v firefox", runas=user):
+    #     return e
+    # if salt.utils.platform.is_darwin():
+    #     if p := salt["cmd.run"]("brew --prefix firefox", runas=user):
+    #         return p
+    #     for f in ['/opt/homebrew/bin', '/usr/local/bin']:
+    #         if p := salt["cmd.run"]("test -s {}/code && echo {}/code".format(f, f) , runas=user):
+    #             return p
+    # raise CommandExecutionError("Could not find firefox executable.")
 
 
 def is_installed(name, user=None):
