@@ -1,16 +1,28 @@
 {%- from 'tool-firefox/map.jinja' import firefox -%}
 
+{%- set require_local_sync = firefox.get('_local_extensions') | to_bool
+                         and firefox.get('ext_local_source_sync') | to_bool -%}
+
+{%- if 'Windows' == grains.kernel or require_local_sync %}
 include:
+  {%- if require_local_sync %}
   - .synclocaladdons
-{%- if 'Windows' == grains.kernel %}
+  {%- endif %}
+  {%- if 'Windows' == grains.kernel %}
   - .winadm
+  {%- endif %}
+{%- endif %}
+
+{%- if 'Windows' == grains.kernel %}
 
 Firefox policies are applied as Group Policy:
   lgpo.set:
     - computer_policy: {{ firefox._policies | json }}
     - require:
-      - sls: {{ slspath }}.winadm
-      - sls: {{ slspath }}.synclocaladdons
+        - sls: {{ slsdotpath }}.winadm
+  {%- if require_local_sync %}
+        - sls: {{ slsdotpath }}.synclocaladdons
+  {%- endif %}
 
 Group policies are updated:
   cmd.run:
@@ -28,10 +40,11 @@ Firefox policies are applied as profile:
     - removaldisallowed: False
     - ptype: org.mozilla.firefox
     - content:
-      - {{ firefox._policies | json }}
+        - {{ firefox._policies | json }}
+  {%- if require_local_sync %}
     - require:
-      - sls: {{ slspath }}.synclocaladdons # relative requires do not work, see https://github.com/saltstack/salt/issues/10838
-
+        - sls: {{ slsdotpath }}.synclocaladdons # relative requires do not work, see https://github.com/saltstack/salt/issues/10838
+  {%- endif %}
 {%- else %}
 
 Firefox policies are synced to policies.json:
@@ -43,6 +56,8 @@ Firefox policies are synced to policies.json:
     - user: root
     - group: root
     - mode: '0644'
+  {%- if require_local_sync %}
     - require:
-      - sls: {{ slspath }}.synclocaladdons
+        - sls: {{ slspath }}.synclocaladdons
+  {%- endif %}
 {%- endif %}

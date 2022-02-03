@@ -141,7 +141,7 @@ shell: {{ user_info.shell.split('/')[-1] }}
   {%- set profiles_dir = user_info.home + default_profile_dir %}
   {#- need the default profile name, should be default-release in most cases. not sure which ones use default -#}
   {%- set profile = (salt['file.find'](profiles_dir ~ '/*' ~ vars._default_profile, type='d', maxdepth=0) or ['']) | first %}
-  {%- do users[user]['_firefox'].update({'confdir': profiles_dir, 'profile': profile}) -%}
+  {%- do users[user]['_firefox'].update({'confdir': profiles_dir, 'profile': profile, 'default_profile': vars._default_profile}) -%}
 {%- endfor -%}
 
 {%- do firefox.update({'users': users.values() | list}) -%}
