@@ -118,7 +118,7 @@ updates_disabled: {{ firefox.get('ext_default_updatedisabled', False) }}
 {%- for tool_user, tool_user_conf in salt['pillar.get']('tool:users', {}).items() -%}
 {#- by default, install tool if it was targeted. explicitly deny for a specific user to override -#}
   {%- if tool_user_conf.get('firefox', True) -%}
-    {%- do users.update({tool_user: tool_user_conf}) -%}
+    {%- do users.update({tool_user: salt['defaults.deepcopy'](tool_user_conf)}) -%}
   {%- endif -%}
 {%- endfor -%}
 
