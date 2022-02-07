@@ -36,6 +36,7 @@ Firefox policies are applied as profile:
   macprofile.installed:
     - name: salt.tool.org.mozilla.firefox
     - description: Firefox default configuration managed by Salt state tool-firefox.config.policies
+    - displayname: Firefox configuration (salt-tool)
     - organization: salt.tool
     - removaldisallowed: False
     - ptype: org.mozilla.firefox
