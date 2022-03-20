@@ -12,7 +12,7 @@ Firefox default profile is synced from dotfiles for user '{{ user.name }}':
       - salt://dotconfig/{{ user.name }}/firefox
       - salt://dotconfig/firefox
     - context:
-        user: {{ user }}
+        user: {{ user | json }}
     - user: {{ user.name }}
     - group: {{ user.group }}
     - file_mode: keep
