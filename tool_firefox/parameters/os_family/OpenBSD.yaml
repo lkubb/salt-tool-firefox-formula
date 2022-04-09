@@ -1,0 +1,36 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+#
+# Set values specific to:
+#   salt['config.get']('os_family') == OpenBSD.
+#
+# You just need to add the key:values for this `os_family` that differ
+# from `defaults.yaml` + `<osarch>.yaml`.
+#
+# If you do not need to provide defaults via the `os_family` config,
+# you can remove this file or provide at least an empty dict, e.g.
+# values: {}
+---
+values:
+  lookup:
+    pkg:
+      manager: pkg
+      beta: false
+      dev: false
+      esr:
+        name: firefox-esr
+        type: pkg
+      nightly: false
+      stable:
+        name: mozilla-firefox
+        type: pkg
+    paths:
+      beta: false
+      dev: false
+      esr:
+        installation: /usr/local/lib/firefox-esr
+      nightly: false
+      stable:
+        installation: /usr/local/lib/firefox
+    rootgroup: wheel
+...

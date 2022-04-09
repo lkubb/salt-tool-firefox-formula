@@ -1,0 +1,70 @@
+# yamllint disable rule:indentation rule:line-length
+# Fedora-33
+---
+values:
+  extensions:
+    absent:
+      - tampermonkey
+    defaults:
+      installation_mode: normal_installed
+      updates_disabled: false
+    local:
+      source: /opt/firefox_addons
+      sync: true
+    wanted:
+      - bitwarden
+      - ublock-origin:
+          installation_mode: force_installed
+      - metamask:
+          local: true
+  policies:
+    DisableTelemetry: true
+    NoDefaultBookmarks: true
+    OverrideFirstRunPage: about:blank
+    OverridePostUpdatePage: about:blank
+  userjs:
+    hash: a395ed35ea2bfbaf8c3f99383df46ec4f358d6e8cac3a9638d896ce8f210bd71
+    source: https://raw.githubusercontent.com/arkenfox/user.js/master/user.js
+  version: esr
+  users:
+    user:
+      completions: .completions
+      configsync: true
+      persistenv: .bash_profile
+      rchook: .bashrc
+      xdg: true
+      firefox:
+        userjs: true
+  added_in_defaults: defaults_value
+  added_in_lookup: lookup_value
+  added_in_pillar: pillar_value
+  arch: amd64
+  lookup:
+    added_in_lookup: lookup_value
+    master: template-master
+    winner: lookup
+    pkg:
+      name: firefox
+    paths:
+      confdir: '.mozilla/firefox'
+      conffile: 'config'
+    rootgroup: root
+  map_jinja:
+    sources:
+    - "Y:G@osarch"
+    - "Y:G@os_family"
+    - "Y:G@os"
+    - "Y:G@osfinger"
+    - "C@tool_global"
+    - "C@tool_firefox"
+    - "Y:G@id"
+  master: template-master
+  tofs:
+    files_switch:
+    - any/path/can/be/used/here
+    - id
+    - roles
+    - osfinger
+    - os
+    - os_family
+  winner: pillar

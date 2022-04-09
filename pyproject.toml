@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "salt_tool_firefox"
+version = "1.0.0"
+description = "Saltstack execution/state modules and states to manage Mozilla Firefox"
+authors = ["lkubb"]
+
+[tool.poetry.dependencies]
+python = "^3.6.2"
+
+[tool.poetry.dev-dependencies]
+salt = "^3004"
+black = "^21.12b0"
+mypy = "^0.931"
+flake8 = "^4"
+Sphinx = "^4"
+# this is the official saltstack theme
+# sphinx-material-saltstack = "^1.0.5"
+sphinx-rtd-theme = "^1.0.0"
+# fulltoc has an issue with recent Sphinx versions ('easily' fixable in the source code though)
+# sphinxcontrib-fulltoc = "^1.2.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,30 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+#
+# Set values specific to:
+#   salt['config.get']('os_family') == RedHat.
+#
+# You just need to add the key:values for this `os_family` that differ
+# from `defaults.yaml` + `<osarch>.yaml`.
+#
+# If you do not need to provide defaults via the `os_family` config,
+# you can remove this file or provide at least an empty dict, e.g.
+# values: {}
+---
+values:
+  lookup:
+    pkg:
+      manager: yum
+
+    paths:
+      beta:
+        installation: /usr/lib64/firefox-beta
+      dev:
+        installation: /usr/lib64/firefox-dev
+      esr:
+        installation: /usr/lib64/firefox-esr
+      nightly:
+        installation: /usr/lib64/firefox-nightly
+      stable:
+        installation: /usr/lib64/firefox
+...

@@ -1,0 +1,33 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+#
+# Set values specific to:
+#   salt['config.get']('os_family') == Debian.
+#
+# You just need to add the key:values for this `os_family` that differ
+# from `defaults.yaml` + `<osarch>.yaml`.
+#
+# If you do not need to provide defaults via the `os_family` config,
+# you can remove this file or provide at least an empty dict, e.g.
+# values: {}
+---
+values:
+  lookup:
+    pkg:
+      manager: apt
+      beta:
+        type: tar
+        url: https://download.mozilla.org/?product=firefox-beta-latest-ssl&os=linux
+      dev:
+        type: tar
+        url: https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux  # yamllint disable-line rule:line-length
+      esr:
+        name: firefox-esr
+        type: pkg
+      nightly:
+        type: tar
+        url: https://download.mozilla.org/?product=firefox-nightly-latest-ssl&os=linux
+      stable:
+        name: firefox
+        type: pkg
+...

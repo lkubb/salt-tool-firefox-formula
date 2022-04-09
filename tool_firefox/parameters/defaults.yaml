@@ -1,0 +1,227 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+#
+# Set default values.
+---
+values:
+  lookup:
+    paths:
+      beta:
+        bin_sub: firefox
+        installation: /usr/lib/firefox-beta
+        profiles: .mozilla/firefox/Profiles
+        profile_default: .default-beta
+      dev:
+        bin_sub: firefox
+        installation: /usr/lib/firefox-dev
+        profiles: .mozilla/firefox/Profiles
+        profile_default: .dev-edition-default
+      esr:
+        bin_sub: firefox
+        installation: /usr/lib/firefox-esr
+        profiles: .mozilla/firefox/Profiles
+        profile_default: .default-esr
+      nightly:
+        bin_sub: firefox
+        installation: /usr/lib/firefox-nightly
+        profiles: .mozilla/firefox/Profiles
+        profile_default: .default-nightly
+      stable:
+        bin_sub: firefox
+        installation: /usr/lib/firefox
+        profiles: .mozilla/firefox/Profiles
+        profile_default: .default-release
+    rootgroup: root
+    extension_data:  # yamllint disable rule:line-length
+      archivebox-exporter:
+        id: 'archivebox@tjhorner.dev'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/auto-tab-discard/latest.xpi
+      auto-tab-discard:
+        id: '{c2c003ee-bd69-42a2-b0e9-6f34222cb046}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/auto-tab-discard/latest.xpi
+      bitwarden:
+        id: '{446900e4-71c2-419f-a6a7-df9c091e268b}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi
+      bypass-paywalls-clean:
+        id: '{d133e097-46d9-4ecc-9903-fa6a722a6e0e}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/bypass-paywalls-clean/latest.xpi
+      clearurls:
+        id: '{74145f27-f039-47ce-a470-a662b129930a}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/clearurls/latest.xpi
+      containerise:
+        id: containerise@kinte.sh
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/containerise/latest.xpi
+      cookie-autodelete:
+        id: CookieAutoDelete@kennydo.com
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/cookie-autodelete/latest.xpi
+      cookie-editor:
+        id: '{c3c10168-4186-445c-9c5b-63f12b8e2c87}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/cookie-editor/latest.xpi
+      dark-reader:
+        id: addon@darkreader.org
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi
+      duckduckgo-privacy-essentials:
+        id: jid1-ZAdIEUB7XOzOJw@jetpack
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/duckduckgo-for-firefox/latest.xpi
+      enterprise-policy-generator:
+        id: enterprise-policy-generator@agenedia.com
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/enterprise-policy-generator/latest.xpi
+      firefox-multi-account-containers:
+        id: '@testpilot-containers'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi
+      firefox-relay:
+        id: private-relay@firefox.com
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/private-relay/latest.xpi
+      flagfox:
+        id: '{1018e4d6-728f-4b20-ad56-37578a4de76b}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/flagfox/latest.xpi
+      floccus:
+        id: floccus@handmadeideas.org
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/floccus/latest.xpi
+      gitako:
+        id: '{983bd86b-9d6f-4394-92b8-63d844c4ce4c}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/gitako-github-file-tree/latest.xpi
+      i-dont-care-about-cookies:
+        id: jid1-KKzOGWgsW3Ao4Q@jetpack
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/i-dont-care-about-cookies/latest.xpi
+      intention:
+        id: '{f85e892d-eb2d-4bab-8605-215a4453d12a}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/intention/latest.xpi
+      ipfs-companion:
+        id: ipfs-firefox-addon@lidel.org
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/ipfs-companion/latest.xpi
+      metamask:
+        id: webextension@metamask.io
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/ether-metamask/latest.xpi
+      noscript:
+        id: '{73a6fe31-595d-460b-a920-fcc0f8843232}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/noscript/latest.xpi
+      octotree:
+        id: jid1-Om7eJGwA1U8Akg@jetpack
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/octotree/latest.xpi
+      one-tab:
+        id: extension@one-tab.com
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/onetab/latest.xpi
+      privacy-pass:
+        id: '{48748554-4c01-49e8-94af-79662bf34d50}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/privacy-pass/latest.xpi
+      reddit-enhancement-suite:
+        id: jid1-xUfzOsOFlzSOXg@jetpack
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/reddit-enhancement-suite/latest.xpi
+      redirector:
+        id: redirector@einaregilsson.com
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/redirector/latest.xpi
+      refined-github:
+        id: '{a4c4eda4-fb84-4a84-b4a1-f7c1cbf2a1ad}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/refined-github-/latest.xpi
+      refined-hacker-news:
+        id: refinedhackernews@mihir.ch
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/refined-hacker-news/latest.xpi
+      sidebery:
+        id: '{3c078156-979c-498b-8990-85f7987dd929}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/sidebery/latest.xpi
+      simple-translate:
+        id: simple-translate@sienori
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/simple-translate/latest.xpi
+      skip-redirect:
+        id: skipredirect@sblask
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/skip-redirect/latest.xpi
+      snowflake:
+        id: '{b11bea1f-a888-4332-8d8a-cec2be7d24b9}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/torproject-snowflake/latest.xpi
+      sponsorblock:
+        id: sponsorBlocker@ajay.app
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi
+      stylus:
+        id: '{7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/styl-us/latest.xpi
+      tab-session-manager:
+        id: Tab-Session-Manager@sienori
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/tab-session-manager/latest.xpi
+      tampermonkey:
+        id: firefox@tampermonkey.net
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/tampermonkey/latest.xpi
+      temple-wallet:
+        id: '{34ac229e-1cf5-4e4c-8a77-988155c4360f}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/temple-wallet/latest.xpi
+      temporary-containers:
+        id: '{c607c8df-14a7-4f28-894f-29e8722976af}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/temporary-containers/latest.xpi
+      translate-web-pages:
+        id: '{036a55b4-5e72-4d05-a06c-cba2dfcc134a}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/traduzir-paginas-web/latest.xpi
+      tree-style-tab:
+        id: treestyletab@piro.sakura.ne.jp
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/tree-style-tab/latest.xpi
+      ublacklist:
+        id: '@ublacklist'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/ublacklist/latest.xpi
+      ublock-origin:
+        id: uBlock0@raymondhill.net
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi
+      video-download-helper:
+        id: '{b9db16a4-6edc-47ec-a1f4-b86292ed211d}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/video-downloadhelper/latest.xpi
+      vimium-ff:
+        id: '{d7742d87-e61d-4b78-b8a1-b469842139fa}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi
+      web-archives:
+        id: '{d07ccf11-c0cd-4938-a265-2a4d6ad01189}'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/view-page-archive/latest.xpi
+  extensions:  # yamllint enable rule:line-length
+    defaults:
+      installation_mode: normal_installed
+      update_disabled: false
+    local:
+      source: /opt/firefox_addons
+      sync: false
+  version: stable
+  # Just here for testing
+  added_in_defaults: defaults_value
+  winner: defaults
+...

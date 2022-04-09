@@ -1,0 +1,87 @@
+{
+  "template": "https://github.com/lkubb/salt-tool-template-formula",
+  "commit": "61eeb787bd281ccfa613bdb1a0d62776a3648bb5",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "_extensions": [
+        "local_extensions.YAMLDumper"
+      ],
+      "_jinja2_env_vars": {
+        "block_start_string": "{!",
+        "block_end_string": "!}",
+        "variable_start_string": "{=",
+        "variable_end_string": "=}",
+        "comment_start_string": "{@",
+        "comment_end_string": "@}"
+      },
+      "name": "Mozilla Firefox",
+      "abbr": "firefox",
+      "abbr_pysafe": "firefox",
+      "pkg": "firefox",
+      "modstate": "y",
+      "needs_repo": "n",
+      "has_service": "n",
+      "mac_library": "y",
+      "mac_cask": "y",
+      "has_xdg": "n",
+      "needs_xdg_help": "n",
+      "has_conffile_only": "n",
+      "default_confdir": ".mozilla/firefox",
+      "default_confdir_mac": "Library/Application Support/Firefox",
+      "default_conffile": "config",
+      "xdg_dirname": "",
+      "xdg_conffile": "",
+      "has_configsync": "y",
+      "has_config_template": "n",
+      "has_completions": "n",
+      "has_tests": "y",
+      "git_username": "lkubb",
+      "_lookup": {},
+      "_settings": {
+        "version": "esr",
+        "extensions": {
+          "defaults": {
+              "installation_mode": "normal_installed",
+              "updates_disabled": false
+          },
+          "local": {
+            "source": "/opt/firefox_addons",
+            "sync": true
+          },
+          "absent": [
+            "tampermonkey"
+          ],
+          "wanted": [
+            "bitwarden",
+            {
+              "ublock-origin": {
+                "installation_mode": "force_installed"
+              }
+            },
+            {
+              "metamask": {
+                "local": true
+              }
+            }
+          ]
+        },
+        "policies": {
+          "DisableTelemetry": true,
+          "NoDefaultBookmarks": true,
+          "OverrideFirstRunPage": "about:blank",
+          "OverridePostUpdatePage": "about:blank"
+        },
+        "userjs": {
+          "hash": "a395ed35ea2bfbaf8c3f99383df46ec4f358d6e8cac3a9638d896ce8f210bd71",
+          "source": "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js"
+        }
+      },
+      "_usersettings": {
+        "userjs": true
+      },
+      "_template": "https://github.com/lkubb/salt-tool-template-formula"
+    }
+  },
+  "directory": null
+}

@@ -1,0 +1,36 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+#
+# Set values specific to:
+#   salt['config.get']('os_family') == Arch.
+#
+# You just need to add the key:values for this `os_family` that differ
+# from `defaults.yaml` + `<osarch>.yaml`.
+#
+# If you do not need to provide defaults via the `os_family` config,
+# you can remove this file or provide at least an empty dict, e.g.
+# values: {}
+---
+values:
+  lookup:
+    pkg:
+      manager: pacman
+      beta:
+        aur: true
+        name: firefox-beta-bin
+        type: pkg
+      dev:
+        name: firefox-developer-edition
+        type: pkg
+      esr:
+        aur: true
+        name: firefox-esr-bin
+        type: pkg
+      nightly:
+        aur: true
+        name: firefox-nightly
+        type: pkg
+      stable:
+        name: firefox
+        type: pkg
+...
