@@ -426,6 +426,7 @@ class DepthRenderer(Renderer):
 
     def _render_index(self, states, indices, prefix=""):
         target = self._get_target(prefix) / Path("index.rst")
+        self._ensurepath(target)
         with open(target, "w") as f:
             self.f = f
             self.prefix = prefix

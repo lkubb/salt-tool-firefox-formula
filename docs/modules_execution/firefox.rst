@@ -1,7 +1,7 @@
 .. _em_firefox:
 
-firefox execution module
-========================
+``firefox`` execution module
+============================
 
 .. automodule:: _modules.firefox
    :members:

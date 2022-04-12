@@ -1,7 +1,7 @@
 .. _sm_firefox:
 
-firefox state module
-====================
+``firefox`` state module
+========================
 
 .. automodule:: _states.firefox
    :members:

@@ -9,8 +9,9 @@
 include:
   - {{ tplroot }}.default_profile
 
+
 {%- for user in firefox.users | selectattr('dotconfig', 'defined') | selectattr('dotconfig') %}
-{%-   set dotconfig = user.dotconfig if dotconfig is mapping else {} %}
+{%-   set dotconfig = user.dotconfig if user.dotconfig is mapping else {} %}
 
 Firefox default profile is synced for user '{{ user.name }}':
   file.recurse:
@@ -29,7 +30,7 @@ Firefox default profile is synced for user '{{ user.name }}':
     - file_mode: '{{ dotconfig.file_mode }}'
 {%-   endif %}
     - dir_mode: '{{ dotconfig.get('dir_mode', '0700') }}'
-    - clean: {{ dotconfig.get('clean', False) | to_bool }}
+    - clean: {{ dotconfig.get('clean', false) | to_bool }}
     - makedirs: true
     - require:
       - Firefox has created the default user profile for user '{{ user.name }}'

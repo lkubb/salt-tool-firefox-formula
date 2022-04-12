@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/lkubb/salt-tool-template-formula",
-  "commit": "61eeb787bd281ccfa613bdb1a0d62776a3648bb5",
+  "commit": "b6857da39f76771bbfbeaf6fab8389d62179eef9",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -42,8 +42,8 @@
         "version": "esr",
         "extensions": {
           "defaults": {
-              "installation_mode": "normal_installed",
-              "updates_disabled": false
+            "installation_mode": "normal_installed",
+            "updates_disabled": false
           },
           "local": {
             "source": "/opt/firefox_addons",
