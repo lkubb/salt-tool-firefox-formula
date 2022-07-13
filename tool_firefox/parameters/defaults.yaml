@@ -109,6 +109,10 @@ values:
         id: ipfs-firefox-addon@lidel.org
         data:
           install_url: https://addons.mozilla.org/firefox/downloads/latest/ipfs-companion/latest.xpi
+      libredirect:
+        id: 7esoorv3@alefvanoon.anonaddy.me
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/libredirect/latest.xpi
       metamask:
         id: webextension@metamask.io
         data:
