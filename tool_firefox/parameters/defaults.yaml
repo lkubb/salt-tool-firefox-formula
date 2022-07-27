@@ -49,6 +49,10 @@ values:
         id: '{d133e097-46d9-4ecc-9903-fa6a722a6e0e}'
         data:
           install_url: https://addons.mozilla.org/firefox/downloads/latest/bypass-paywalls-clean/latest.xpi
+      canvasblocker:
+        id: 'CanvasBlocker@kkapsner.de'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/canvasblocker/latest.xpi
       clearurls:
         id: '{74145f27-f039-47ce-a470-a662b129930a}'
         data:
@@ -217,7 +221,8 @@ values:
         id: '{d07ccf11-c0cd-4938-a265-2a4d6ad01189}'
         data:
           install_url: https://addons.mozilla.org/firefox/downloads/latest/view-page-archive/latest.xpi
-  extensions:  # yamllint enable rule:line-length
+  # yamllint enable rule:line-length
+  extensions:
     defaults:
       installation_mode: normal_installed
       update_disabled: false
