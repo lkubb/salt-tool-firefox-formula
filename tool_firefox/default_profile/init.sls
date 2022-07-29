@@ -83,6 +83,7 @@ Firefox has been run once for user '{{ user.name }}':
     - bg: true
     # close Firefox after 20s (failsafe for process.absent)
     - timeout: 20
+    - hide_output: true
     # only run if the default profile has not been created yet
     - onfail:
       # onfail_stop does not accept state IDs only, needs module: name declaration
