@@ -15,7 +15,9 @@ include:
 
 Firefox default profile is synced for user '{{ user.name }}':
   file.recurse:
-    - name: {{ user._firefox.profile }}
+    # it seems maxdepth=1 is parsed as a str, not int, resulting in an exception: `self.maxdepth is None or self.maxdepth >= depth`
+    # - name: __slot__:salt:file.find({{ user._firefox.profiledir }}, name='*{{ firefox._profile_default }}', type='d', maxdepth=1).0
+    - name: __slot__:salt:file.find({{ user._firefox.profiledir }}, name='*{{ firefox._profile_default }}', type='d').0
     - source: {{ files_switch(
                 ['firefox'],
                 default_files_switch=['id', 'os_family'],
@@ -34,15 +36,4 @@ Firefox default profile is synced for user '{{ user.name }}':
     - makedirs: true
     - require:
       - Firefox has created the default user profile for user '{{ user.name }}'
-    - onlyif:
-      - test -n '{{ user._firefox.profile }}'
-
-Notification about missing default profile for user '{{ user.name }}':
-  test.show_notification:
-    - text: >
-        You will need to run tool_firefox.config a second time since there was no
-        default profile for user '{{ user.name }}'. This is a technical limitation
-        in the way Salt works.
-    - unless:
-      - test -n '{{ user._firefox.profile }}'
 {%- endfor %}

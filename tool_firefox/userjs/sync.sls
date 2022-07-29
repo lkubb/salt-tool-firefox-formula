@@ -12,14 +12,13 @@ include:
 # @FIXME for global installation and this to make sense
 # see https://github.com/pyllyukko/user.js/#system-wide-installation-all-platforms
 
-# Jinja will be evaluated before the states are run, therefore it cannot find the profile dir
-# while Firefox is not installed (on the first run). Implement execution module to change that @TODO.
-
 {%- for user in firefox.users | selectattr('firefox.userjs', 'defined') | selectattr('firefox.userjs') %}
 
 Firefox default profile user.js is synced with source for user '{{ user.name }}':
   file.managed:
-    - name: {{ user._firefox.profile }}/user.js
+    # https://github.com/saltstack/salt/issues/61572
+    # it seems maxdepth=1 is parsed as a str, not int, resulting in an exception: `self.maxdepth is None or self.maxdepth >= depth`
+    - name: __slot__:salt:file.find('{{ user._firefox.profiledir }}', name='*{{ firefox._profile_default }}', type='d').0 ~ /user.js
     - source: {{ firefox._userjs_source }}
   {%- if firefox.get('_userjs_hash') %}
     - source_hash: {{ firefox._userjs_hash }}
@@ -32,6 +31,4 @@ Firefox default profile user.js is synced with source for user '{{ user.name }}'
     - makedirs: true
     - require:
       - Firefox has created the default user profile for user '{{ user.name }}'
-    - onlyif:
-      - test -n '{{ user._firefox.profile }}'
 {%- endfor %}

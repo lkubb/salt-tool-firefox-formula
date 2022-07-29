@@ -12,10 +12,6 @@ Usage
 -----
 Applying ``tool_firefox`` will make sure Firefox is configured as specified.
 
-.. note::
-
-  In the current state, this formula sometimes needs to run twice to finish configuration in some cases, specifically if you chose to sync files to your profile (either ``user.js`` or dotconfig). This is caused by technical limitations in SaltStack (Jinja renders before states are run, therefore – on the first run on a virgin system – Firefox does not exist to it.)
-
 Local sources
 ~~~~~~~~~~~~~
 This formula provides a way to automatically install extensions from a local source. This provides you with more control about which versions you use and when you want to update.
@@ -154,7 +150,7 @@ Dotfiles
 * ``salt://dotconfig/default/<user>/``
 * ``salt://dotconfig/default/``
 
-to the user's config dir for every user that has it enabled (see ``user.dotconfig``). The target folder will not be cleaned by default (ie files in the target that are absent from the user's dotconfig will stay). This works in the first run **after Firefox has been installed**.
+to the user's config dir for every user that has it enabled (see ``user.dotconfig``). The target folder will not be cleaned by default (ie files in the target that are absent from the user's dotconfig will stay).
 
 The URL list above is in descending priority. This means user-specific configuration from wider scopes will be overridden by more system-specific general configuration.
 
