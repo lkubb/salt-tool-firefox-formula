@@ -50,7 +50,6 @@
 # * onfail_stop does not take state IDs only
 # * onfail_stop does not actually "catch" failures (https://github.com/saltstack/salt/issues/16291)
 
-{#- Get the `tplroot` from `tpldir` #}
 {%- set tplroot = tpldir.split('/')[0] %}
 {%- set sls_package_install = tplroot ~ '.package' %}
 {%- from tplroot ~ "/map.jinja" import mapdata as firefox with context %}
