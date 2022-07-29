@@ -76,7 +76,8 @@ Check if Firefox has created the default user profile for user '{{ user.name }}'
 
 Firefox has been run once for user '{{ user.name }}':
   cmd.run:
-    - name: {{ firefox._bin }} --headless
+    - name: |
+        "{{ firefox._bin }}" --headless
     - runas: {{ user.name }}
     # run this in the background
     - bg: true
