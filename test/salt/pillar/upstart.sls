@@ -10,7 +10,24 @@ tool_global:
       rchook: .bashrc
       xdg: true
       firefox:
-        userjs: true
+        arkenfox:
+          autoclean_prefs: true
+          override:
+            autosearch: false
+            drm: false
+            form_autofill: false
+            history_keep: false
+            letterboxing_disabled: false
+            referrer_always: false
+            rfp_disabled: false
+            safe_browsing_download_remote_lookup: false
+            session_restore: false
+            strict_pinning_disabled: false
+            webgl: false
+          override_custom: {}
+        userjs:
+          hash: false
+          source: https://raw.githubusercontent.com/arkenfox/user.js/master/user.js
 tool_firefox:
   lookup:
     master: template-master
@@ -43,9 +60,6 @@ tool_firefox:
     NoDefaultBookmarks: true
     OverrideFirstRunPage: about:blank
     OverridePostUpdatePage: about:blank
-  userjs:
-    hash: a395ed35ea2bfbaf8c3f99383df46ec4f358d6e8cac3a9638d896ce8f210bd71
-    source: https://raw.githubusercontent.com/arkenfox/user.js/master/user.js
   version: esr
 
   tofs:

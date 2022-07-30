@@ -32,6 +32,7 @@ repos:
         name: Check shell scripts with shellcheck
         files: ^.*\.(sh|bash|ksh)$
         types: []
+        exclude: prefsCleaner.sh$
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.26.3
     hooks:

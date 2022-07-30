@@ -71,14 +71,30 @@
           "NoDefaultBookmarks": true,
           "OverrideFirstRunPage": "about:blank",
           "OverridePostUpdatePage": "about:blank"
-        },
-        "userjs": {
-          "hash": "a395ed35ea2bfbaf8c3f99383df46ec4f358d6e8cac3a9638d896ce8f210bd71",
-          "source": "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js"
         }
       },
       "_usersettings": {
-        "userjs": true
+        "arkenfox": {
+          "autoclean_prefs": true,
+          "override": {
+            "safe_browsing_download_remote_lookup": false,
+            "session_restore": false,
+            "autosearch": false,
+            "form_autofill": false,
+            "strict_pinning_disabled": false,
+            "referrer_always": false,
+            "drm": false,
+            "history_keep": false,
+            "webgl": false,
+            "rfp_disabled": false,
+            "letterboxing_disabled": false
+          },
+          "override_custom": {}
+        },
+        "userjs": {
+          "hash": false,
+          "source": "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js"
+        }
       },
       "_template": "https://github.com/lkubb/salt-tool-template-formula"
     }

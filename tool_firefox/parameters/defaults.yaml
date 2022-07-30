@@ -5,6 +5,11 @@
 ---
 values:
   lookup:
+    arkenfox:
+      base: https://raw.githubusercontent.com/arkenfox/user.js/master/
+      updater: updater.sh
+      prefs_cleaner: prefsCleaner.sh
+      user_js: user.js
     paths:
       beta:
         bin_sub: firefox

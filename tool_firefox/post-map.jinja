@@ -76,17 +76,6 @@
 
 {%- do mapdata.update({'_policies': policies}) -%}
 
-{%- if mapdata.get('userjs') -%}
-  {%- if mapdata.userjs is mapping -%}
-    {%- set userjs_source = mapdata.userjs.source -%}
-    {%- set userjs_hash = mapdata.userjs.hash -%}
-  {%- else -%}
-    {%- set userjs_source = mapdata.userjs -%}
-    {%- set userjs_hash = false -%}
-  {%- endif -%}
-  {%- do mapdata.update({'_userjs_source': userjs_source, '_userjs_hash': userjs_hash}) -%}
-{%- endif -%}
-
 {%- set users = {} -%}
 
 {%- set user_settings = ['xdg', 'completions', 'dotconfig', 'persistenv', 'rchook', 'completions', 'firefox'] -%}

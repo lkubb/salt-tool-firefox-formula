@@ -52,8 +52,49 @@ tool_global:
         # user-specific configuration in `tool_firefox:users`.
         # Set this to `false` to disable configuration for this user.
       firefox:
-          # sync user.js from formula-defined source for this user
-        userjs: true
+          # If arkenfox is selected as userjs, this customizes the installation.
+        arkenfox:
+            # Run cleanPrefs after each upgrade.
+            # This will need to stop Firefox when run.
+          autoclean_prefs: true
+            # Activate common overrides automatically.
+          override:
+              # Use the URL bar to search with the default search engine as well.
+            autosearch: false
+              # Enable DRM.
+            drm: false
+              # Save form data and enable autofill.
+            form_autofill: false
+              # Keep history.
+            history_keep: false
+              # When RFP is enabled, disable letterboxing.
+            letterboxing_disabled: false
+              # Reset referrer privacy to default (always send).
+            referrer_always: false
+              # Disable RFP (resist fingerprint).
+              # https://github.com/arkenfox/user.js/wiki/3.3-Overrides-%5BTo-RFP-or-Not%5D
+              # If this is true, leaving WebGL disabled does not provide much benefit.
+            rfp_disabled: false
+              # Safe Browsing: Enable remote lookups of downloads.
+            safe_browsing_download_remote_lookup: false
+              # Restore sessions on startup. Disables history clearing on close.
+            session_restore: false
+              # Disable strict certificate pinning.
+            strict_pinning_disabled: false
+              # Enable WebGL.
+            webgl: false
+            # Specify custom overrides as name: value mapping.
+            # The value will be JSON-encoded.
+          override_custom:
+            some.other.firefox.pref: value
+          # You can specify a direct download of a default `user.js`
+          # for your default profile (atm) or use arkenfox user.js.
+          # For the latter, just set it to the string "arkenfox".
+          # For the former, this can be just the url as a string
+          # (no hash check -> unsafe) or a mapping of hash and source like this:
+        userjs:
+          hash: a395ed35ea2bfbaf8c3f99383df46ec4f358d6e8cac3a9638d896ce8f210bd71
+          source: https://raw.githubusercontent.com/arkenfox/user.js/master/user.js
 
 tool_firefox:
 
@@ -109,14 +150,6 @@ tool_firefox:
     NoDefaultBookmarks: true
     OverrideFirstRunPage: about:blank
     OverridePostUpdatePage: about:blank
-
-    # You can specify a direct download of a default `user.js`
-    # for your default profile (atm).
-    # This can be just the url as a string (no hash check -> unsafe)
-    # or a mapping of hash and source like this:
-  userjs:
-    hash: a395ed35ea2bfbaf8c3f99383df46ec4f358d6e8cac3a9638d896ce8f210bd71
-    source: https://raw.githubusercontent.com/arkenfox/user.js/master/user.js
 
     # Default formula configuration for all users.
   defaults:
