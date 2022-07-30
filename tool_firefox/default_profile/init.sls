@@ -1,54 +1,8 @@
 # -*- coding: utf-8 -*-
 # vim: ft=sls
 
-# This file exists to make sure the default profile has been generated.
-# It is the result of a lot of trial and error testing.
-# Previously, it was just a call to cmd.run that ran a script along the lines of:
-
-#   eval "${ff_bin} --headless &"
-#   until find $ff_profile -type d -maxdepth 0; do
-#     sleep 1
-#   done
-#   sleep 1
-#   killall -15 firefox
-#   find $ff_profile -type d -maxdepth 0
-
-# That implementation is I) not portable II) requires two state runs and III) ugly.
-# The solution down below works as follows:
-#   * checks if the profile exists
-#   * if not, runs Firefox in the background
-#   * checks for the existence of the profile by reporting the output of file.find
-#     using configurable_test_state with __slot__, retrying on failure
-#   * the slot needs to cast file.find output to boolean, which is done using
-#     slsutil.renderer with a mako template string (to avoid premature Jinja rendering,
-#     but this could have been solved by raw/endraw tags as well)
-#   * the template returns the boolean output inside a list since False automatically changes to None
-#   * the slot then takes the first element of that list and returns it as the value
-#     for the configurable test result
-
-# The heart of the problem is that the profile dir is random and file.exists state does not take globs.
-# The best solution would have been to write a state module function for file.find ~ file.exists, but I wanted to avoid custom modules for unrelated stuff here.
-# It would have been helpful to have more flexible slots: https://github.com/saltstack/salt-enhancement-proposals/pull/33
-# Some solutions I tried to determine if the profile exists:
-# X different variants of module.run/test.* + unless, check_cmd, prereq, retry
-# X test.fail_with_changes + unless file.find + prereq
-#     -> prereq implies require X
-#     -> unless with fun: and retry does not work (fun: seems to be popped from the dict after the first run)
-#   Solution:
-#     -> split the first check/trigger and the retry checks
-#     -> use slots to call file.find directly and report its state via configurable test state
-
-# Issues I stumbled upon:
-# * module.run + retry: https://github.com/saltstack/salt/issues/49895
-# * module.run + unless: fun always reported changes
-# * __slots__ do not allow casting of values
-# * py renderer does not allow string input/chaining
-#     https://github.com/saltstack/salt/issues/45521
-#     https://github.com/saltstack/salt/pull/55390
-# * if a renderer only returns False, it will be changed to None
-# * unless with fun: and retry does not work (fun is missing after first try)
-# * onfail_stop does not take state IDs only
-# * onfail_stop does not actually "catch" failures (https://github.com/saltstack/salt/issues/16291)
+# For notes on this file see DEVLOG.rst in the formula repository.
+# This is much more involved than necessary, at some point I want to fix that. @TODO
 
 {%- set tplroot = tpldir.split('/')[0] %}
 {%- set sls_package_install = tplroot ~ '.package' %}
