@@ -9,5 +9,5 @@
 
 Mozilla Firefox config dir is absent for user '{{ user.name }}':
   file.absent:
-    - name: {{ user['_firefox'].profiles }}
+    - name: {{ user['_firefox'].profiledir }}
 {%- endfor %}

@@ -21,4 +21,4 @@ Debian unstable repository is not pinned to low priority:
 
 Mozilla Firefox is removed:
   pkg.removed:
-    - name: {{ firefox.lookup.pkg.name }}
+    - name: {{ firefox._pkg.name }}
