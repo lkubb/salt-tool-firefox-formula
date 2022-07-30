@@ -108,10 +108,12 @@ shell: {{ user_info.shell.split('/')[-1] }}
   {%- endload -%}
   {%- do users[user].update(salt['defaults.merge'](user_info, users[user], in_place=false)) -%}
   {%- set profiles_dir = users[user].home | path_join(paths.profiles) -%}
-  {%- set profile = (salt['file.find'](profiles_dir ~ '/*' ~ paths.profile_default, type='d', maxdepth=0) or ['']) | first -%}
+  {#- maxdepth=1 is parsed as a str, not int, resulting in an exception: `self.maxdepth is None or self.maxdepth >= depth` -#}
+  {%- set profile = (salt['file.find'](profiles_dir, name='*.' ~ paths.profile_default, type='d', maxdepth=1) or ['']) | first -%}
+  {%- set find_profile_slot = "__slot__:salt:file.find('{}', name='*.{}', type='d').0 ~ ".format(profiles_dir, paths.profile_default) -%}
   {%- do users[user]['_firefox'].update({
       'profiledir': users[user].home | path_join(paths.profiles),
-      'profile': profile,
+      'profile': (profile or find_profile_slot) ~ "/" if "Windows" != grains.os else "\\",
   }) -%}
 {%- endfor -%}
 

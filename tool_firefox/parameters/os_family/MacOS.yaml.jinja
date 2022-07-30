@@ -38,27 +38,22 @@ values:
         bin_sub: Contents/MacOS/firefox
         installation: /Applications/Firefox.app
         profiles: Library/Application Support/Firefox/Profiles
-        profile_default: .default-beta
       dev:
         bin_sub: Contents/MacOS/firefox
         installation: /Applications/Firefox Developer Edition.app
         profiles: Library/Application Support/Firefox/Profiles
-        profile_default: .dev-edition-default
       esr:
         bin_sub: Contents/MacOS/firefox
         installation: /Applications/Firefox.app
         profiles: Library/Application Support/Firefox/Profiles
-        profile_default: .default-esr
       nightly:
         bin_sub: Contents/MacOS/firefox
         installation: /Applications/Firefox Nightly.app
         profiles: Library/Application Support/Firefox/Profiles
-        profile_default: .default-nightly
       stable:
         bin_sub: Contents/MacOS/firefox
         installation: /Applications/Firefox.app
         profiles: Library/Application Support/Firefox/Profiles
-        profile_default: .default-release
       manager: brew
     rootgroup: {{ salt['cmd.run']("stat -f '%Sg' /dev/console") }}
 ...

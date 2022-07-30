@@ -15,27 +15,27 @@ values:
         bin_sub: firefox
         installation: /usr/lib/firefox-beta
         profiles: .mozilla/firefox/Profiles
-        profile_default: .default-beta
+        profile_default: default-beta
       dev:
         bin_sub: firefox
         installation: /usr/lib/firefox-dev
         profiles: .mozilla/firefox/Profiles
-        profile_default: .dev-edition-default
+        profile_default: dev-edition-default
       esr:
         bin_sub: firefox
         installation: /usr/lib/firefox-esr
         profiles: .mozilla/firefox/Profiles
-        profile_default: .default-esr
+        profile_default: default-esr
       nightly:
         bin_sub: firefox
         installation: /usr/lib/firefox-nightly
         profiles: .mozilla/firefox/Profiles
-        profile_default: .default-nightly
+        profile_default: default-nightly
       stable:
         bin_sub: firefox
         installation: /usr/lib/firefox
         profiles: .mozilla/firefox/Profiles
-        profile_default: .default-release
+        profile_default: default-release
     rootgroup: root
     extension_data:  # yamllint disable rule:line-length
       archivebox-exporter:

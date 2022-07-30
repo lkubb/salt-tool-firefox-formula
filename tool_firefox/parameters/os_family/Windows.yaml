@@ -40,27 +40,22 @@ values:
         bin_sub: firefox.exe
         installation: C:/Program Files/Mozilla/Firefox Beta
         profiles: AppData/Roaming/Mozilla/Firefox
-        profile_default: .default-beta
       dev:
         bin_sub: firefox.exe
         installation: C:/Program Files/Mozilla/Firefox Developer Edition
         profiles: AppData/Roaming/Mozilla/Firefox
-        profile_default: .dev-edition-default
       esr:
         bin_sub: firefox.exe
         installation: C:/Program Files/Mozilla/Firefox ESR
         profiles: AppData/Roaming/Mozilla/Firefox
-        profile_default: .default-esr
       nightly:
         bin_sub: firefox.exe
         installation: C:/Program Files/Mozilla/Firefox Nightly
         profiles: AppData/Roaming/Mozilla/Firefox
-        profile_default: .default-nightly
       stable:
         bin_sub: firefox.exe
         installation: C:/Program Files/Mozilla/Firefox
         profiles: AppData/Roaming/Mozilla/Firefox
-        profile_default: .default-release
     win_gpo:
       owner: Administrators
       policy_dir: C:\Windows\PolicyDefinitions

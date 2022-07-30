@@ -10,7 +10,7 @@
 Firefox default profile user.js is absent for user '{{ user.name }}':
   file.absent:
     - names:
-      - __slot__:salt:file.find('{{ user._firefox.profiledir }}', name='*{{ firefox._profile_default }}', type='d').0 ~ /user.js
-      - __slot__:salt:file.find('{{ user._firefox.profiledir }}', name='*{{ firefox._profile_default }}', type='d').0 ~ /user.js.latest
-      - __slot__:salt:file.find('{{ user._firefox.profiledir }}', name='*{{ firefox._profile_default }}', type='d').0 ~ /user-overrides.js
+      - {{ user._firefox.profile }}user.js
+      - {{ user._firefox.profile }}user.js.latest
+      - {{ user._firefox.profile }}user-overrides.js
 {%- endfor %}

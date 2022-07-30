@@ -16,7 +16,7 @@ include:
 
 Arkenfox user.js snapshot is updated for user '{{ user.name }}':
   file.managed:
-    - name: __slot__:salt:file.find('{{ user._firefox.profiledir }}', name='*{{ firefox._profile_default }}', type='d').0 ~ /user.js.latest
+    - name: {{ user._firefox.profile }}user.js.latest
     - source: {{ files_switch(
                 ['arkenfox/user.js'],
                 default_files_switch=['id', 'os_family'],
@@ -37,7 +37,7 @@ Arkenfox user.js snapshot is updated for user '{{ user.name }}':
 
 Arkenfox user.js overrides are present for user '{{ user.name }}':
   file.managed:
-    - name: __slot__:salt:file.find('{{ user._firefox.profiledir }}', name='*{{ firefox._profile_default }}', type='d').0 ~ /user-overrides.js
+    - name: {{ user._firefox.profile }}user-overrides.js
     - source: {{ files_switch(
                 ['arkenfox/user-overrides.js', 'arkenfox/user-overrides.js.j2'],
                 default_files_switch=['id', 'os_family'],
@@ -51,8 +51,8 @@ Arkenfox user.js overrides are present for user '{{ user.name }}':
 
 Arkenfox user.js is updated for user '{{ user.name }}':
   file.copy:
-    - name: __slot__:salt:file.find('{{ user._firefox.profiledir }}', name='*{{ firefox._profile_default }}', type='d').0 ~ /user.js
-    - source: __slot__:salt:file.find('{{ user._firefox.profiledir }}', name='*{{ firefox._profile_default }}', type='d').0 ~ /user.js.latest
+    - name: {{ user._firefox.profile }}user.js
+    - source: {{ user._firefox.profile }}user.js.latest
     - force: true
     # preserve did not work
     - mode: '0600'
@@ -66,7 +66,7 @@ Arkenfox user.js is updated for user '{{ user.name }}':
 
 Arkenfox user.js ESR-related settings are active for user '{{ user.name }}':
   file.replace:
-    - name: __slot__:salt:file.find('{{ user._firefox.profiledir }}', name='*{{ firefox._profile_default }}', type='d').0 ~ /user.js
+    - name: {{ user._firefox.profile }}user.js
     - pattern: \/\* (ESR[0-9]{2,}\.x still uses all.*)
     - repl: // \1
     - backup: false
@@ -79,9 +79,9 @@ Arkenfox user.js ESR-related settings are active for user '{{ user.name }}':
 
 Arkenfox user.js overrides are appended for user '{{ user.name }}':
   file.append:
-    - name: __slot__:salt:file.find('{{ user._firefox.profiledir }}', name='*{{ firefox._profile_default }}', type='d').0 ~ /user.js
+    - name: {{ user._firefox.profile }}user.js
     - sources:
-      - __slot__:salt:file.find('{{ user._firefox.profiledir }}', name='*{{ firefox._profile_default }}', type='d').0 ~ /user-overrides.js
+      - {{ user._firefox.profile }}user-overrides.js
     - onchanges:
       - Arkenfox user.js is updated for user '{{ user.name }}'
 
@@ -108,7 +108,7 @@ Arkenfox prefsCleaner has cleaned prefs.js for user '{{ user.name }}':
 {%- if grains.os != "Windows" %}
     - args: -s
 {%- endif %}
-    - cwd: __slot__:salt:file.find('{{ user._firefox.profiledir }}', name='*{{ firefox._profile_default }}', type='d').0
+    - cwd: {{ user._firefox.profile[:-1] }}
     - runas: {{ user.name }}
     - onchanges:
       - Arkenfox user.js snapshot is updated for user '{{ user.name }}'

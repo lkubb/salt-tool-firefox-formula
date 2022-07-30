@@ -68,7 +68,7 @@ Check if Firefox has created the default user profile for user '{{ user.name }}'
     - unless:
       - fun: file.find
         path: {{ user._firefox.profiledir }}
-        name: '*{{ firefox._profile_default }}'
+        name: '*.{{ firefox._profile_default }}'
         type: d
         maxdepth: 1
     - require:
@@ -104,7 +104,7 @@ Firefox has created the default user profile for user '{{ user.name }}':
     # Actually this could be Jinja if wrapped in raw/endraw tags. @TODO?
     - result: >-
         __slot__:salt:slsutil.renderer(string="[${bool(salt['file.find']('{{ user._firefox.profiledir }}',
-        name='*{{ firefox._profile_default }}', type='d', maxdepth=1))}]", default_renderer='mako|yaml').0
+        name='*.{{ firefox._profile_default }}', type='d', maxdepth=1))}]", default_renderer='mako|yaml').0
     - comment: This needs to succeed.
     - onchanges:
       - Firefox has been run once for user '{{ user.name }}'
