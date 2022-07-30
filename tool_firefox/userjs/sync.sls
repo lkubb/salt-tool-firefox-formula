@@ -18,11 +18,11 @@ Firefox default profile user.js is synced with source for user '{{ user.name }}'
   file.managed:
     - name: {{ user._firefox.profile }}user.js
     - source: {{ user | traverse("firefox:userjs:source", user.firefox.userjs) }}
-  {%- if user | traverse("firefox:userjs:hash") %}
+{%-   if user | traverse("firefox:userjs:hash") %}
     - source_hash: {{ user.firefox.userjs.hash }}
-  {%- else %}
+{%-   else %}
     - skip_verify: true  # this is needed for arbitrary user.js files
-  {%- endif %}
+{%-   endif %}
     - mode: '0600'
     - user: {{ user.name }}
     - group: {{ user.group }}

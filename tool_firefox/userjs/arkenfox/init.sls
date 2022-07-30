@@ -62,7 +62,7 @@ Arkenfox user.js is updated for user '{{ user.name }}':
       - Arkenfox user.js snapshot is updated for user '{{ user.name }}'
       - Arkenfox user.js overrides are present for user '{{ user.name }}'
 
-{%- if "esr" == firefox.version %}
+{%-   if "esr" == firefox.version %}
 
 Arkenfox user.js ESR-related settings are active for user '{{ user.name }}':
   file.replace:
@@ -75,7 +75,7 @@ Arkenfox user.js ESR-related settings are active for user '{{ user.name }}':
       - Arkenfox user.js is updated for user '{{ user.name }}'
     - require_in:
       - Arkenfox user.js overrides are appended for user '{{ user.name }}'
-{%- endif %}
+{%-   endif %}
 
 Arkenfox user.js overrides are appended for user '{{ user.name }}':
   file.append:
@@ -105,9 +105,9 @@ Arkenfox prefsCleaner has cleaned prefs.js for user '{{ user.name }}':
   cmd.script:
     # cmd.script does not allow for list of sources
     - source: salt://{{ tplroot }}/files/default/arkenfox/prefsCleaner{{ ".sh" if grains.os != "Windows" else ".bat" }}
-{%- if grains.os != "Windows" %}
+{%-     if grains.os != "Windows" %}
     - args: -s
-{%- endif %}
+{%-     endif %}
     - cwd: {{ user._firefox.profile[:-1] }}
     - runas: {{ user.name }}
     - onchanges:

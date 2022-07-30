@@ -75,8 +75,8 @@ The following shows an example of ``tool_firefox`` per-user configuration. If pr
     firefox:
         # If arkenfox is selected as userjs, this customizes the installation.
       arkenfox:
-            # Run cleanPrefs after each upgrade.
-            # This will need to stop Firefox when run.
+          # Run cleanPrefs after each upgrade.
+          # This will need to stop Firefox when run.
         autoclean_prefs: true
           # Activate common overrides automatically.
         override:
