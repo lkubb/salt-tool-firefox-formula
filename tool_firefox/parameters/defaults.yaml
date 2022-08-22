@@ -94,6 +94,10 @@ values:
         id: private-relay@firefox.com
         data:
           install_url: https://addons.mozilla.org/firefox/downloads/latest/private-relay/latest.xpi
+      firefox-translations:
+        id: firefox-translations-addon@mozilla.org
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/firefox-translations/latest.xpi
       flagfox:
         id: '{1018e4d6-728f-4b20-ad56-37578a4de76b}'
         data:
