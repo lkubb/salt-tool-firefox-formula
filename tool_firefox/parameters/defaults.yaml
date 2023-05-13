@@ -41,7 +41,7 @@ values:
       archivebox-exporter:
         id: 'archivebox@tjhorner.dev'
         data:
-          install_url: https://addons.mozilla.org/firefox/downloads/latest/auto-tab-discard/latest.xpi
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/archivebox-exporter/latest.xpi
       auto-tab-discard:
         id: '{c2c003ee-bd69-42a2-b0e9-6f34222cb046}'
         data:
