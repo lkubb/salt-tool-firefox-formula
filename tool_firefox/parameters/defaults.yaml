@@ -78,6 +78,10 @@ values:
         id: addon@darkreader.org
         data:
           install_url: https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi
+      dearrow:
+        id: 'deArrow@ajay.app'
+        data:
+          install_url: https://addons.mozilla.org/firefox/downloads/latest/dearrow/latest.xpi
       duckduckgo-privacy-essentials:
         id: jid1-ZAdIEUB7XOzOJw@jetpack
         data:
