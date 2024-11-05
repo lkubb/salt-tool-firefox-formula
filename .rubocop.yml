@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # vim: ft=yaml
 ---
 # General overrides used across formulas in the org
@@ -7,7 +6,7 @@ Layout/LineLength:
   # Based on https://github.com/PyCQA/flake8-bugbear#opinionated-warnings (`B950`)
   Max: 88
 Metrics/BlockLength:
-  IgnoredMethods:
+  AllowedMethods:
     - control
     - describe
   # Increase from default of `25`

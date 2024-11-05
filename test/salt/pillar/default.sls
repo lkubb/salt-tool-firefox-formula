@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 # vim: ft=yaml
+# yamllint disable rule:comments-indentation
 ---
 tool_global:
   users:
@@ -40,6 +40,7 @@ tool_firefox:
     paths:
       confdir: '.mozilla/firefox'
       conffile: 'config'
+    rootgroup: root
   extensions:
     absent:
       - tampermonkey

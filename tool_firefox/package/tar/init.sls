@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
+{%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as firefox with context %}
 
 
@@ -14,7 +13,7 @@ Mozilla Firefox is installed:
     - name: {{ firefox._path }}
     # I remember needing double {{ }} for this command for some reason,
     # but will need to check again @FIXME
-    - source: {{ salt['cmd.run_stdout'](
+    - source: {{ salt["cmd.run_stdout"](
         "curl -ILs -o /dev/null -w %{url_effective} '" ~
         firefox._pkg.url ~ "'") }}
     - skip_verify: true # unsafe, does not work without atm

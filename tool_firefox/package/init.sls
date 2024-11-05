@@ -1,9 +1,12 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
+{#-
+    Installs the Mozilla Firefox package only.
+#}
+
+{%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as firefox with context %}
-{%- set sls_actual_install = slsdotpath ~ '.' ~ firefox._pkg.type %}
+{%- set sls_actual_install = slsdotpath ~ "." ~ firefox._pkg.type %}
 
 include:
   - {{ sls_actual_install }}

@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
+{%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as firefox with context %}
 {%- from tplroot ~ "/libtofs.jinja" import files_switch %}
 
@@ -18,8 +17,8 @@ Arkenfox user.js snapshot is updated for user '{{ user.name }}':
   file.managed:
     - name: {{ user._firefox.profile }}user.js.latest
     - source: {{ files_switch(
-                ['arkenfox/user.js'],
-                default_files_switch=['id', 'os_family'],
+                ["arkenfox/user.js"],
+                default_files_switch=["id", "os_family"],
                 opt_prefixes=[user.name]) }}
       - {{ firefox.lookup.arkenfox.base ~ firefox.lookup.arkenfox.user_js }}
     # # should update the file as well and by default does not use versioned URI
@@ -39,8 +38,8 @@ Arkenfox user.js overrides are present for user '{{ user.name }}':
   file.managed:
     - name: {{ user._firefox.profile }}user-overrides.js
     - source: {{ files_switch(
-                ['arkenfox/user-overrides.js', 'arkenfox/user-overrides.js.j2'],
-                default_files_switch=['id', 'os_family'],
+                ["arkenfox/user-overrides.js", "arkenfox/user-overrides.js.j2"],
+                default_files_switch=["id", "os_family"],
                 opt_prefixes=[user.name]) }}
     - template: jinja
     - mode: '0600'

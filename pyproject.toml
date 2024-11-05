@@ -8,16 +8,30 @@ authors = ["lkubb"]
 python = "^3.6.2"
 
 [tool.poetry.dev-dependencies]
-salt = "^3004"
-black = "^21.12b0"
-mypy = "^0.931"
-flake8 = "^4"
+salt = "^3005"
+black = "^23.1.0"
+isort = "^5.12.0"
 Sphinx = "^4"
 # this is the official saltstack theme
 # sphinx-material-saltstack = "^1.0.5"
 sphinx-rtd-theme = "^1.0.0"
 # fulltoc has an issue with recent Sphinx versions ('easily' fixable in the source code though)
 # sphinxcontrib-fulltoc = "^1.2.0"
+
+[tool.slsdoc]
+include_empty = true
+
+[tool.slsdoc.single_renderer]
+header = "Available states"
+description = """\
+The following states are found in this formula:
+
+.. contents::
+   :local:
+"""
+main_heading_char = "-"
+sub_heading_char = "~"
+literal_sub_heading = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

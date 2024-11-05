@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
+{%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as firefox with context %}
 
 
-{%- if 'Debian' == grains.os and 'esr' != firefox.version %}
+{%- if grains.os == "Debian" and firefox.version != "esr" %}
 
 Ensure Debian unstable repository can be managed:
   pkg.installed:
@@ -35,6 +34,6 @@ Debian unstable repository is pinned to low priority to not install all unstable
 Mozilla Firefox is installed:
   pkg.installed:
     - name: {{ firefox._pkg.name }}
-{%- if 'Debian' == grains.os and 'esr' != firefox.version %}
+{%- if grains.os == "Debian" and firefox.version != "esr" %}
     - refresh: true
 {%- endif %}

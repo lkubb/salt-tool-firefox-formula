@@ -1,25 +1,24 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
+{%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as firefox with context %}
 
-{%- set require_local_sync = firefox.get('_local_extensions') | to_bool
+{%- set require_local_sync = firefox.get("_local_extensions") | to_bool
                          and firefox.extensions.local.sync | to_bool %}
 
-{%- if 'Windows' == grains.kernel or require_local_sync %}
+{%- if grains.kernel == "Windows" or require_local_sync %}
 
 include:
 {%-   if require_local_sync %}
   - {{ tplroot }}.local_addons
 {%-   endif %}
-{%-   if 'Windows' == grains.kernel %}
+{%-   if grains.kernel == "Windows" %}
   - {{ slsdotpath }}.winadm
 {%-   endif %}
 {%- endif %}
 
 
-{%- if 'Windows' == grains.kernel %}
+{%- if grains.kernel == "Windows" %}
 
 Firefox policies are applied as Group Policy:
   lgpo.set:
@@ -39,7 +38,7 @@ Group policies are updated:
       - Firefox policies are applied as Group Policy
 
 
-{%- elif 'Darwin' == grains.kernel %}
+{%- elif grains.kernel == "Darwin" %}
 
 Firefox policies are applied as profile:
   macprofile.installed:
@@ -62,7 +61,7 @@ Firefox policies are applied as profile:
 Firefox policies are synced to policies.json:
   file.serialize:
     - name: {{ firefox._path }}/distribution/policies.json
-    - dataset: {{ {'policies': firefox._policies} | json }}
+    - dataset: {{ {"policies": firefox._policies} | json }}
     - serializer: json
     - makedirs: true
     - user: root

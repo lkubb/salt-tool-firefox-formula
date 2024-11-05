@@ -1,33 +1,32 @@
-{#- -*- coding: utf-8 -*- #}
 {#- vim: ft=jinja #}
 
 {%- set paths = mapdata.lookup.paths[mapdata.version] -%}
 {%- set pkg = mapdata.lookup.pkg[mapdata.version] -%}
 
 {%- do mapdata.update({
-      '_path': paths.installation,
-      '_bin': paths.installation | path_join(paths.bin_sub),
-      '_profiles': paths.profiles,
-      '_profile_default': paths.profile_default,
-      '_pkg': pkg,
+      "_path": paths.installation,
+      "_bin": paths.installation | path_join(paths.bin_sub),
+      "_profiles": paths.profiles,
+      "_profile_default": paths.profile_default,
+      "_pkg": pkg,
 }) -%}
 
-{%- set policies = mapdata.get('policies', {}) -%}
-{%- set extensions = mapdata.get('extensions', {}) -%}
+{%- set policies = mapdata.get("policies", {}) -%}
+{%- set extensions = mapdata.get("extensions", {}) -%}
 
 {#- Parse wanted extensions first.
     Allows to specify pre-defined extensions by name
     instead of looking up ID/URL on addons.mozilla.org -#}
-{%- if extensions.get('wanted') -%}
+{%- if extensions.get("wanted") -%}
   {%- set extensions_data = {} -%}
   {%- set local_extensions = [] -%}
   {%- for extension in extensions.wanted -%}
     {%- set ext_config = {} -%}
     {%- if extension is mapping -%}
       {%- set ext_name = extension | first -%}
-      {#- Need to deepcopy because we might pop 'local' settings, which will seem to work, but
+      {#- Need to deepcopy because we might pop "local" settings, which will seem to work, but
           will make imports not contain local extension settings. -#}
-      {%- set ext_config = salt['defaults.deepcopy'](extension[ext_name]) -%}
+      {%- set ext_config = salt["defaults.deepcopy"](extension[ext_name]) -%}
     {%- else -%}
       {%- set ext_name = extension -%}
     {%- endif -%}
@@ -36,25 +35,25 @@
     {%- else -%}
       {%- set ext_id = mapdata.lookup.extension_data[ext_name].id -%}
       {%- set ext_data = mapdata.lookup.extension_data[ext_name].data -%}
-      {%- if ext_config.get('local') -%}
+      {%- if ext_config.get("local") -%}
         {%- do local_extensions.append(ext_name) -%}
-        {%- do ext_config.update({'install_url': 'file://' ~ mapdata.extensions.local.source ~ '/' ~ ext_name ~ '.xpi'}) -%}
-        {%- do ext_config.pop('local') -%}
+        {%- do ext_config.update({"install_url": "file://" ~ mapdata.extensions.local.source ~ "/" ~ ext_name ~ ".xpi"}) -%}
+        {%- do ext_config.pop("local") -%}
       {%- endif -%}
       {#- merge global extension defaults with data provided in lookup -#}
-      {%- set ext_data = salt['defaults.merge'](mapdata.extensions.defaults, ext_data, in_place=false) -%}
+      {%- set ext_data = salt["defaults.merge"](mapdata.extensions.defaults, ext_data, in_place=false) -%}
       {#- then merge with desired config -#}
-      {%- set ext_data = salt['defaults.merge'](ext_data, ext_config, in_place=false) -%}
+      {%- set ext_data = salt["defaults.merge"](ext_data, ext_config, in_place=false) -%}
       {%- do extensions_data.update({ext_id: ext_data}) -%}
     {%- endif -%}
   {%- endfor -%}
-  {%- do mapdata.update({'_local_extensions': local_extensions}) -%}
-  {%- set policies = salt['defaults.merge'](policies, {'ExtensionSettings': extensions_data}, in_place=false) -%}
+  {%- do mapdata.update({"_local_extensions": local_extensions}) -%}
+  {%- set policies = salt["defaults.merge"](policies, {"ExtensionSettings": extensions_data}, in_place=false) -%}
   {#- for whatever reason, this does not work in_place -#}
 {%- endif -%}
 
 {#- parse unwanted extensions second -#}
-{%- if extensions.get('absent') -%}
+{%- if extensions.get("absent") -%}
   {%- set extensions_data = {} -%}
   {%- for extension in extensions.absent -%}
     {%- if extension not in mapdata.lookup.extension_data -%}
@@ -62,60 +61,60 @@
     {%- else -%}
       {%- set ext_id = mapdata.lookup.extension_data[extension].id -%}
       {%- set ext_data = mapdata.lookup.extension_data[extension].data -%}
-      {%- do ext_data.update({'installation_mode': 'blocked'}) -%}
+      {%- do ext_data.update({"installation_mode": "blocked"}) -%}
       {%- do extensions_data.update({ext_id: ext_data}) -%}
     {%- endif -%}
   {%- endfor -%}
-  {%- set policies = salt['defaults.merge'](policies, {'ExtensionSettings': extensions_data}, in_place=false) -%}
+  {%- set policies = salt["defaults.merge"](policies, {"ExtensionSettings": extensions_data}, in_place=false) -%}
 {%- endif -%}
 
 {#- on MacOS, policies have to be enabled explicitly -#}
-{%- if policies and 'Darwin' == grains['kernel'] -%}
-  {%- do policies.update({'EnterprisePoliciesEnabled': true}) -%}
+{%- if policies and grains.kernel == "Darwin" -%}
+  {%- do policies.update({"EnterprisePoliciesEnabled": true}) -%}
 {%- endif -%}
 
-{%- do mapdata.update({'_policies': policies}) -%}
+{%- do mapdata.update({"_policies": policies}) -%}
 
 {%- set users = {} -%}
 
-{%- set user_settings = ['xdg', 'completions', 'dotconfig', 'persistenv', 'rchook', 'completions', 'firefox'] -%}
+{%- set user_settings = ["xdg", "completions", "dotconfig", "persistenv", "rchook", "completions", "firefox"] -%}
 
 {#- rejectattr filter does not fit with mapping. need to filter out users before merging default values -#}
-{%- for tool_user, tool_user_conf in mapdata.get('users', {}).items() -%}
+{%- for tool_user, tool_user_conf in mapdata.get("users", {}).items() -%}
 {#- by default, install tool if it was targeted. explicitly deny for a specific user to override -#}
-  {%- if tool_user_conf.get('firefox', true) -%}
-    {%- do users.update({tool_user: {'firefox': {}}}) -%}
+  {%- if tool_user_conf.get("firefox", true) -%}
+    {%- do users.update({tool_user: {"firefox": {}}}) -%}
     {%- for user_setting in user_settings -%}
       {%- if tool_user_conf.get(user_setting) is not equalto None -%}
-        {%- do users[tool_user].update({user_setting: salt['defaults.deepcopy'](tool_user_conf[user_setting])}) -%}
+        {%- do users[tool_user].update({user_setting: salt["defaults.deepcopy"](tool_user_conf[user_setting])}) -%}
       {%- endif -%}
     {%- endfor -%}
   {%- endif -%}
 {%- endfor -%}
 
 {#- update all users' configurations for this formula with the formula defaults -#}
-{%- do salt['defaults.update'](users, {'firefox': mapdata.get('defaults', {})}) -%}
+{%- do salt["defaults.update"](users, {"firefox": mapdata.get("defaults", {})}) -%}
 
 {#- embed user information that will be reused (home, primary group, shell, paths) -#}
 {%- for user in users.keys() -%}
-  {%- do users[user].update({'_firefox': {}}) -%}
-  {%- do users[user].update({'name': user}) -%}
-  {%- set user_info = salt['user.info'](user) -%}
+  {%- do users[user].update({"_firefox": {}}) -%}
+  {%- do users[user].update({"name": user}) -%}
+  {%- set user_info = salt["user.info"](user) -%}
   {%- load_yaml as user_info -%}
-group: {{ salt['user.primary_group'](user) }}
+group: {{ salt["user.primary_group"](user) }}
 home: {{ user_info.home }}
-shell: {{ user_info.shell.split('/')[-1] }}
+shell: {{ user_info.shell.split("/")[-1] }}
   {%- endload -%}
-  {%- do users[user].update(salt['defaults.merge'](user_info, users[user], in_place=false)) -%}
+  {%- do users[user].update(salt["defaults.merge"](user_info, users[user], in_place=false)) -%}
   {%- set profiles_dir = users[user].home | path_join(paths.profiles) -%}
   {#- maxdepth=1 is parsed as a str, not int, resulting in an exception: `self.maxdepth is None or self.maxdepth >= depth` -#}
-  {%- set profile = (salt['file.find'](profiles_dir, name='*.' ~ paths.profile_default, type='d', maxdepth=1) or ['']) | first -%}
+  {%- set profile = (salt["file.find"](profiles_dir, name="*." ~ paths.profile_default, type="d", maxdepth=1) or [""]) | first -%}
   {%- set find_profile_slot = "__slot__:salt:file.find('{}', name='*.{}', type='d').0 ~ ".format(profiles_dir, paths.profile_default) -%}
-  {%- do users[user]['_firefox'].update({
-      'profiledir': users[user].home | path_join(paths.profiles),
-      'profile': (profile or find_profile_slot) ~ "/" if "Windows" != grains.os else "\\",
+  {%- do users[user]["_firefox"].update({
+      "profiledir": users[user].home | path_join(paths.profiles),
+      "profile": (profile or find_profile_slot) ~ "/" if "Windows" != grains.os else "\\",
   }) -%}
 {%- endfor -%}
 
 {#- finally embed parsed user config and info in mapdata -#}
-{%- do mapdata.update({'users': users.values() | list}) -%}
+{%- do mapdata.update({"users": users.values() | list}) -%}
