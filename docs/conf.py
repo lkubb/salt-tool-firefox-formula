@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'salt-tool-firefox-formula'
+project = 'tool-firefox-formula'
 copyright = '2022, lkubb'
 author = 'lkubb'
 

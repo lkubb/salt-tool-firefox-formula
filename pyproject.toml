@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "salt_tool_firefox"
+name = "tool_firefox_formula"
 version = "1.0.0"
 description = "Saltstack execution/state modules and states to manage Mozilla Firefox"
 authors = ["lkubb"]

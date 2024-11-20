@@ -6,11 +6,8 @@
 # settings which can be set in many different ways, not only
 # by providing pillar values.
 # The different sources will be merged. For further information,
-# please see the docs, `libmapstack.jinja` as well as the configured
-# default sources in `parameters/map_jinja.yaml`.
-#
-# This documentation will need to be updated once there is
-# some learned experience. @TODO
+# please see the docs, https://lkubb.github.io/saltext-formula/
+# as well as the configured default sources in `parameters/map_jinja.yaml`.
 ######################################################################
 
 # Apart from the various source files, there are two independent source trees
@@ -26,14 +23,17 @@ tool_global:
 
         # Sync this user's config from a dotfiles repo.
         # The available paths and their priority can be found in the
-        # rendered `config/sync.sls` file (currently, @TODO docs).
+        # rendered `config/sync.sls` file.
+        # Note that for user matching to work, you need to install `saltext-formula`.
         # Overview in descending priority:
-        # salt://dotconfig/<minion_id>/<user>/
-        # salt://dotconfig/<minion_id>/
-        # salt://dotconfig/<os_family>/<user>/
-        # salt://dotconfig/<os_family>/
-        # salt://dotconfig/default/<user>/
-        # salt://dotconfig/default/
+        # salt://dotconfig/id/<minion_id>/users/<user>/firefox
+        # salt://dotconfig/id/<minion_id>/firefox
+        # salt://dotconfig/roles/<each custom `role` config>/users/firefox
+        # salt://dotconfig/roles/<each custom `role` config>/firefox
+        # salt://dotconfig/os_family/<os_family>/users/<user>/firefox
+        # salt://dotconfig/os_family/<os_family>/firefox
+        # salt://dotconfig/users/<user>/firefox
+        # salt://dotconfig/default/firefox
       dotconfig:              # can be bool or mapping
         file_mode: '0600'     # default: keep destination or salt umask (new)
         dir_mode: '0700'      # default: 0700
@@ -179,10 +179,9 @@ tool_firefox:
           install_url: https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi  # yamllint disable-line rule:line-length
 
 ######################################################################
-# This is where `tool` suite settings end and Salt behavior settings
-# inherited from `salt-formulas/template-formula` start. They will
-# influence how exactly the TOFS pattern is applied. Mind that
-# parts of this are disabled for `configsync.sls`.
+# The following settings influence which source paths are considered
+# when managing files (TOFS pattern).
+# See docs/TOFS_pattern.rst and https://lkubb.github.io/saltext-formula/
 ######################################################################
   tofs:
     # The files_switch key serves as a selector for alternative

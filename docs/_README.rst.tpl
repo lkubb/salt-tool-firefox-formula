@@ -224,51 +224,6 @@ If a ``.sls`` file begins with a Jinja comment, it will dump that into the docs.
 
 This means if you feel a state should be documented, make sure to write a comment explaining it.
 
-Testing
-~~~~~~~
-
-Linux testing is done with ``kitchen-salt``.
-
-Requirements
-^^^^^^^^^^^^
-
-* Ruby
-* Docker
-
-.. code-block:: bash
-
-  $ gem install bundler
-  $ bundle install
-  $ bin/kitchen test [platform]
-
-Where ``[platform]`` is the platform name defined in ``kitchen.yml``,
-e.g. ``debian-9-2019-2-py3``.
-
-``bin/kitchen converge``
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-Creates the docker instance and runs the ``tool_firefox`` main state, ready for testing.
-
-``bin/kitchen verify``
-^^^^^^^^^^^^^^^^^^^^^^
-
-Runs the ``inspec`` tests on the actual instance.
-
-``bin/kitchen destroy``
-^^^^^^^^^^^^^^^^^^^^^^^
-
-Removes the docker instance.
-
-``bin/kitchen test``
-^^^^^^^^^^^^^^^^^^^^
-
-Runs all of the stages above in one go: i.e. ``destroy`` + ``converge`` + ``verify`` + ``destroy``.
-
-``bin/kitchen login``
-^^^^^^^^^^^^^^^^^^^^^
-
-Gives you SSH access to the instance for manual testing.
-
 Todo
 ----
 * allow per-user installation generally (for linux with tar/snap/...)

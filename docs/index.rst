@@ -1,5 +1,5 @@
-Welcome to salt-tool-firefox-formula's documentation!
-=====================================================
+Welcome to tool-firefox-formula's documentation!
+================================================
 
 .. toctree::
    :maxdepth: 2

@@ -8,7 +8,7 @@
 
 {%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as firefox with context %}
-{%- from tplroot ~ "/libtofs.jinja" import files_switch %}
+{%- from tplroot ~ "/libtofsstack.jinja" import files_switch %}
 
 include:
   - {{ tplroot }}.default_profile
@@ -21,10 +21,14 @@ Firefox default profile is synced for user '{{ user.name }}':
   file.recurse:
     - name: {{ user._firefox.profile[:-1] }}
     - source: {{ files_switch(
-                ["firefox"],
-                default_files_switch=["id", "os_family"],
-                override_root="dotconfig",
-                opt_prefixes=[user.name]) }}
+                    ["firefox"],
+                    lookup="Mozilla Firefox configuration is synced for user '{}'".format(user.name),
+                    config=firefox,
+                    path_prefix="dotconfig",
+                    files_dir="",
+                    custom_data={"users": [user.name]},
+                 )
+              }}
     - context:
         user: {{ user | json }}
     - template: jinja

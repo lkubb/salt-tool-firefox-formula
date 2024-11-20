@@ -2,7 +2,7 @@
 
 {%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as firefox with context %}
-{%- from tplroot ~ "/libtofs.jinja" import files_switch %}
+{%- from tplroot ~ "/libtofsstack.jinja" import files_switch %}
 
 include:
   - {{ tplroot }}.default_profile
@@ -16,11 +16,15 @@ include:
 Arkenfox user.js snapshot is updated for user '{{ user.name }}':
   file.managed:
     - name: {{ user._firefox.profile }}user.js.latest
-    - source: {{ files_switch(
-                ["arkenfox/user.js"],
-                default_files_switch=["id", "os_family"],
-                opt_prefixes=[user.name]) }}
-      - {{ firefox.lookup.arkenfox.base ~ firefox.lookup.arkenfox.user_js }}
+    - source: {{ (
+                    files_switch(
+                      ["arkenfox/user.js"],
+                      lookup="Arkenfox user.js snapshot is updated for user '{}'".format(user.name),
+                      config=firefox,
+                      custom_data={"users": [user.name]},
+                    ) | load_json + [firefox.lookup.arkenfox.base ~ firefox.lookup.arkenfox.user_js]
+                 ) | json
+              }}
     # # should update the file as well and by default does not use versioned URI
     # - keep_source: false
     # ugly workaround for file caching behavior:
@@ -38,9 +42,12 @@ Arkenfox user.js overrides are present for user '{{ user.name }}':
   file.managed:
     - name: {{ user._firefox.profile }}user-overrides.js
     - source: {{ files_switch(
-                ["arkenfox/user-overrides.js", "arkenfox/user-overrides.js.j2"],
-                default_files_switch=["id", "os_family"],
-                opt_prefixes=[user.name]) }}
+                    ["arkenfox/user-overrides.js", "arkenfox/user-overrides.js.j2"],
+                    lookup="Arkenfox user.js overrides are present for user '{}'".format(user.name),
+                    config=firefox,
+                    custom_data={"users": [user.name]},
+                 )
+              }}
     - template: jinja
     - mode: '0600'
     - user: {{ user.name }}
